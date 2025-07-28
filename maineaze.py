@@ -13,31 +13,31 @@ st.set_page_config(
 # Using st.session_state to hold our data, login status, and cart.
 # In a real-world app, this would be a persistent database.
 
-# Initialize product data with user-provided and verified image URLs
+# Initialize product data with updated vendor names
 if 'products' not in st.session_state:
     st.session_state.products = [
         {
-            'id': 'tomato-vendora', 'name': 'Fresh Tomatoes', 'price': 2.50, 'quantity': 50, 'vendor_id': 'VendorA',
+            'id': 'tomato-aralaitinai', 'name': 'Fresh Tomatoes', 'price': 2.50, 'quantity': 50, 'vendor_id': 'Aralai Tinai',
             'image_url': 'https://images.unsplash.com/photo-1582284540020-8acbe03f4924?w=400'
         },
         {
-            'id': 'carrot-vendorb', 'name': 'Organic Carrots', 'price': 3.00, 'quantity': 30, 'vendor_id': 'VendorB',
+            'id': 'carrot-arishneel', 'name': 'Organic Carrots', 'price': 3.00, 'quantity': 30, 'vendor_id': 'Arishneel',
             'image_url': 'https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?w=400'
         },
         {
-            'id': 'lettuce-vendora', 'name': 'Crisp Lettuce', 'price': 1.75, 'quantity': 40, 'vendor_id': 'VendorA',
+            'id': 'lettuce-aralaitinai', 'name': 'Crisp Lettuce', 'price': 1.75, 'quantity': 40, 'vendor_id': 'Aralai Tinai',
             'image_url': 'https://images.unsplash.com/photo-1515356956468-873dd257f911?w=400'
         },
         {
-            'id': 'broccoli-vendorb', 'name': 'Green Broccoli', 'price': 4.50, 'quantity': 25, 'vendor_id': 'VendorB',
-            'image_url': 'https://images.unsplash.com/photo-1587351177733-a03efcae3ebc?w=400'
+            'id': 'broccoli-arishneel', 'name': 'Green Broccoli', 'price': 4.50, 'quantity': 25, 'vendor_id': 'Arishneel',
+            'image_url': 'https://images.unsplash.com/photo-1579871494447-98114c583395?w=400'
         },
         {
-            'id': 'onion-vendora', 'name': 'Red Onions', 'price': 1.50, 'quantity': 60, 'vendor_id': 'VendorA',
+            'id': 'onion-aralaitinai', 'name': 'Red Onions', 'price': 1.50, 'quantity': 60, 'vendor_id': 'Aralai Tinai',
             'image_url': 'https://images.unsplash.com/photo-1668295037469-8b0e8d11cd2a?w=400'
         },
         {
-            'id': 'potato-vendorb', 'name': 'Russet Potatoes', 'price': 2.00, 'quantity': 100, 'vendor_id': 'VendorB',
+            'id': 'potato-arishneel', 'name': 'Russet Potatoes', 'price': 2.00, 'quantity': 100, 'vendor_id': 'Arishneel',
             'image_url': 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400'
         }
     ]
@@ -104,7 +104,7 @@ def login_screen():
 
     with st.form("login_form"):
         role = st.selectbox("I am a:", ["Buyer", "Vendor"])
-        username = st.text_input("Username", help="If you are a Buyer, you can leave this blank.")
+        username = st.text_input("Username", help="If you are a Buyer, you can leave this blank. For vendors, try 'Aralai Tinai' or 'Arishneel'.")
         
         submitted = st.form_submit_button("Login")
         if submitted:
