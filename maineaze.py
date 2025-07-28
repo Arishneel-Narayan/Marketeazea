@@ -13,32 +13,32 @@ st.set_page_config(
 # Using st.session_state to hold our data and user login status.
 # In a real-world app, this would be a persistent database.
 
-# Initialize product data with image URLs if it doesn't exist
+# Initialize product data with verified image URLs if it doesn't exist
 if 'products' not in st.session_state:
     st.session_state.products = [
         {
             'id': 'tomato-vendora', 'name': 'Fresh Tomatoes', 'price': 2.50, 'quantity': 50, 'vendor_id': 'VendorA',
-            'image_url': 'https://images.unsplash.com/photo-1561155653-295af1c2a6c6?w=400'
+            'image_url': 'https://images.unsplash.com/photo-1582284540020-8acbe03f4924?w=400'
         },
         {
             'id': 'carrot-vendorb', 'name': 'Organic Carrots', 'price': 3.00, 'quantity': 30, 'vendor_id': 'VendorB',
-            'image_url': 'https://images.unsplash.com/photo-1590868309235-ea34bed7bd7f?w=400'
+            'image_url': 'https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?w=400'
         },
         {
             'id': 'lettuce-vendora', 'name': 'Crisp Lettuce', 'price': 1.75, 'quantity': 40, 'vendor_id': 'VendorA',
-            'image_url': 'https://images.unsplash.com/photo-1556801712-9c1d5e419e34?w=400'
+            'image_url': 'https://images.unsplash.com/photo-1505532213848-27dd01e74c39?w=400'
         },
         {
             'id': 'broccoli-vendorb', 'name': 'Green Broccoli', 'price': 4.50, 'quantity': 25, 'vendor_id': 'VendorB',
-            'image_url': 'https://images.unsplash.com/photo-1587351177733-a03efcae3ebc?w=400'
+            'image_url': 'https://images.unsplash.com/photo-1628779238953-13c1b6574535?w=400'
         },
         {
             'id': 'onion-vendora', 'name': 'Red Onions', 'price': 1.50, 'quantity': 60, 'vendor_id': 'VendorA',
-            'image_url': 'https://images.unsplash.com/photo-1587374290079-69274851532d?w=400'
+            'image_url': 'https://images.unsplash.com/photo-1518977956812-af3e943b49a2?w=400'
         },
         {
             'id': 'potato-vendorb', 'name': 'Russet Potatoes', 'price': 2.00, 'quantity': 100, 'vendor_id': 'VendorB',
-            'image_url': 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400'
+            'image_url': 'https://images.unsplash.com/photo-1590324816820-2051683e9c9f?w=400'
         }
     ]
 
@@ -142,7 +142,7 @@ def vendor_view():
         product_name = st.text_input("Product Name")
         product_price = st.number_input("Price (per kg/unit)", min_value=0.01, format="%.2f")
         product_quantity = st.number_input("Quantity in Stock", min_value=0, step=1)
-        product_image_url = st.text_input("Image URL", placeholder="https://example.com/image.jpg")
+        product_image_url = st.text_input("Image URL", placeholder="https://images.unsplash.com/your-image-url")
         
         submitted = st.form_submit_button("Save Product")
         if submitted:
