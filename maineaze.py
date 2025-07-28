@@ -93,7 +93,7 @@ def logout():
     st.session_state.user_role = None
     st.session_state.username = None
     st.session_state.cart = [] # Clear cart on logout
-    st.rerun()
+    # st.rerun() has been removed from here to fix the warning.
 
 # --- UI Components ---
 
