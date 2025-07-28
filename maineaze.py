@@ -13,7 +13,7 @@ st.set_page_config(
 # Using st.session_state to hold our data, login status, and cart.
 # In a real-world app, this would be a persistent database.
 
-# Initialize product data with user-provided image URLs
+# Initialize product data with user-provided and verified image URLs
 if 'products' not in st.session_state:
     st.session_state.products = [
         {
@@ -26,15 +26,15 @@ if 'products' not in st.session_state:
         },
         {
             'id': 'lettuce-vendora', 'name': 'Crisp Lettuce', 'price': 1.75, 'quantity': 40, 'vendor_id': 'VendorA',
-            'image_url': 'https://images.unsplash.com/photo-1515356956468-873dd257f911?q=80&w=400'
+            'image_url': 'https://images.unsplash.com/photo-1515356956468-873dd257f911?w=400'
         },
         {
             'id': 'broccoli-vendorb', 'name': 'Green Broccoli', 'price': 4.50, 'quantity': 25, 'vendor_id': 'VendorB',
-            'image_url': 'https://plus.unsplash.com/premium_photo-1668618249843-e343f5b2447f?w=400'
+            'image_url': 'https://images.unsplash.com/photo-1587351177733-a03efcae3ebc?w=400'
         },
         {
             'id': 'onion-vendora', 'name': 'Red Onions', 'price': 1.50, 'quantity': 60, 'vendor_id': 'VendorA',
-            'image_url': 'https://images.unsplash.com/photo-1587374290079-69274851532d?w=400'
+            'image_url': 'https://images.unsplash.com/photo-1668295037469-8b0e8d11cd2a?w=400'
         },
         {
             'id': 'potato-vendorb', 'name': 'Russet Potatoes', 'price': 2.00, 'quantity': 100, 'vendor_id': 'VendorB',
@@ -137,8 +137,8 @@ def buyer_view():
             col = cols[i % 3]
             with col:
                 with st.container(border=True):
-                    # Standardize image size
-                    st.image(product['image_url'], width=200)
+                    # Use container width to ensure images fit the column flexibly
+                    st.image(product['image_url'], use_container_width=True)
                     st.subheader(product['name'])
                     st.markdown(f"**Vendor:** {product['vendor_id']}")
                     
@@ -225,12 +225,8 @@ def shopping_cart_view():
 
     if st.sidebar.button("Checkout", use_container_width=True):
         st.success("Checkout successful! Thank you for your purchase.")
-        # Restore stock (for prototype purposes)
-        for cart_item in st.session_state.cart:
-            product_index = find_product_index(cart_item['id'])
-            if product_index is not None:
-                 # In a real app, this logic would be different (e.g., order fulfillment)
-                 pass
+        # In a real app, this logic would be different (e.g., order fulfillment)
+        # For this prototype, we just clear the cart.
         st.session_state.cart = [] # Clear the cart
         st.rerun()
 
