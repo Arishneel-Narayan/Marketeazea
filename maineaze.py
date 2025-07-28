@@ -111,8 +111,8 @@ def buyer_view():
             col = cols[i % 3]
             with col:
                 with st.container(border=True):
-                    # Display the product image
-                    st.image(product['image_url'], use_column_width=True)
+                    # Display the product image using the correct parameter
+                    st.image(product['image_url'], use_container_width=True)
                     st.subheader(product['name'])
                     st.markdown(f"**Vendor:** {product['vendor_id']}")
                     
