@@ -64,28 +64,36 @@ def generate_product_id(name, vendor_id):
     """Generates a simple, unique ID for a product."""
     return f"{name.lower().replace(' ', '-')}-{vendor_id.lower()}"
 
-def add_to_cart(product):
-    """Adds a product to the shopping cart."""
+def add_to_cart(product, quantity):
+    """Adds a specified quantity of a product to the shopping cart."""
+    if quantity <= 0:
+        st.warning("Please select a quantity greater than zero.")
+        return
+
     product_index = find_product_index(product['id'])
     if product_index is None:
         st.error("Product not found!")
         return
 
+    if st.session_state.products[product_index]['quantity'] < quantity:
+        st.error(f"Not enough stock for {product['name']}. Only {st.session_state.products[product_index]['quantity']} available.")
+        return
+
     # Decrement stock
-    st.session_state.products[product_index]['quantity'] -= 1
+    st.session_state.products[product_index]['quantity'] -= quantity
 
     # Check if item is already in cart
     for item in st.session_state.cart:
         if item['id'] == product['id']:
-            item['quantity'] += 1
-            st.toast(f"Added another {product['name']} to cart!")
+            item['quantity'] += quantity
+            st.toast(f"Added {quantity} more {product['name']} to cart!")
             return
 
     # If not in cart, add it
     new_cart_item = product.copy()
-    new_cart_item['quantity'] = 1
+    new_cart_item['quantity'] = quantity
     st.session_state.cart.append(new_cart_item)
-    st.toast(f"Added {product['name']} to cart!")
+    st.toast(f"Added {quantity} {product['name']} to cart!")
 
 def logout():
     """Resets the session state to log the user out."""
@@ -93,7 +101,6 @@ def logout():
     st.session_state.user_role = None
     st.session_state.username = None
     st.session_state.cart = [] # Clear cart on logout
-    # st.rerun() has been removed from here to fix the warning.
 
 # --- UI Components ---
 
@@ -137,21 +144,26 @@ def buyer_view():
             col = cols[i % 3]
             with col:
                 with st.container(border=True):
-                    # Use container width to ensure images fit the column flexibly
                     st.image(product['image_url'], use_container_width=True)
                     st.subheader(product['name'])
                     st.markdown(f"**Vendor:** {product['vendor_id']}")
                     
-                    col1, col2 = st.columns(2)
-                    with col1:
+                    price_col, stock_col = st.columns(2)
+                    with price_col:
                         st.metric(label="Price", value=f"${product['price']:.2f}")
-                    with col2:
+                    with stock_col:
                         st.metric(label="Stock", value=product['quantity'])
 
                     is_disabled = product['quantity'] == 0
-                    if st.button("Add to Cart", key=f"add_{product['id']}", disabled=is_disabled, use_container_width=True):
-                        add_to_cart(product)
-                        st.rerun()
+                    
+                    # Add quantity selector
+                    qty_col, btn_col = st.columns([1, 2])
+                    with qty_col:
+                        quantity_to_add = st.number_input("Qty", min_value=1, max_value=product['quantity'], value=1, key=f"qty_{product['id']}", label_visibility="collapsed", disabled=is_disabled)
+                    with btn_col:
+                        if st.button("Add to Cart", key=f"add_{product['id']}", disabled=is_disabled, use_container_width=True):
+                            add_to_cart(product, quantity_to_add)
+                            st.rerun()
 
 def vendor_view():
     """Displays the UI for vendors."""
@@ -225,9 +237,7 @@ def shopping_cart_view():
 
     if st.sidebar.button("Checkout", use_container_width=True):
         st.success("Checkout successful! Thank you for your purchase.")
-        # In a real app, this logic would be different (e.g., order fulfillment)
-        # For this prototype, we just clear the cart.
-        st.session_state.cart = [] # Clear the cart
+        st.session_state.cart = [] 
         st.rerun()
 
 
